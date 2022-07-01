@@ -26,7 +26,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         // 로그인 여부 체크
         if (session.getAttribute("loginEmail") == null) {
             // 로그인 하지 않은 경우
-            // 로그인 페이지로 보냄(보내면서 requestURI도 같이 보냄)
+            // 로그인 페이지로 보냄(보내면서 requestURI 도 같이 보냄)
             response.sendRedirect("/member/login-form?redirectURL=" + requestURI);
             return false;
         }

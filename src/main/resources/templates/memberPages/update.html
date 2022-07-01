@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
-<h2>save.html</h2>
+<h2>정보수정</h2>
 <form action="/member/update" method="post" name="updateForm">
     <input type="hidden" th:value="${updateMember.id}" name="id"><br>
     이메일: <input type="text" th:value="${updateMember.memberEmail}" name="memberEmail" readonly> <br>
@@ -54,7 +54,7 @@
     const update = () => {
         const pw = [[${updateMember.memberPassword}]];
         const pwConfirm = document.getElementById("memberPassword").value;
-        if (pw == pwConfirm) {
+        if (pw === pwConfirm) {
             updateForm.submit();
         } else {
             alert("비밀번호가 틀립니다!!");
