@@ -120,7 +120,7 @@ public class MemberController {
         return checkResult;
     }
 
-    // 로그아웃
+
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 전체를 무효화
