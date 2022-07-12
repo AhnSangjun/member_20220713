@@ -52,8 +52,8 @@
         console.log(pwConfirm);
         const pw = [[${board.boardPassword}]];
         const id = [[${board.id}]];
-        if (pw == pwConfirm) {
-            if(num == 1) {
+        if (pw === pwConfirm) {
+            if(num === 1) {
                 location.href = "/board/update/"+id;
             } else {
                 location.href = "/board/delete/"+id;

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>update.html</h2>
+    <form action="/board/update" method="post" name="updateForm">
+        <input type="hidden" name="id" th:value="${boardUpdate.id}" class="form_control" >
+        <input type="text" name="boardTitle" th:value="${boardUpdate.boardTitle}" class="form_control"><br>
+        <input type="text" name="boardWrite" th:value="${boardUpdate.boardWrite}" class="form_control" readonly><br>
+        <input type="password" name="boardPassword" id="passwordConfirm" class="form_control"><br>
+        <textarea name="boardContents" cols="30" rows="10" th:value="${boardUpdate.boardContents}"></textarea>
+        <input type="button" class="btn btn-danger" value="수정" onclick="boardUpdate()">
+    </form>
+</body>
+<script th:value="javascript">
+    const boardUpdate = () => {
+        // const passwordConfirm = document.querySelector("#passwordConfirm").value;
+        const passwordConfirm = document.getElementById("passwordConfirm").value;
+        const passwordDB = '${boardUpdate.boardPassword}';
+        if (passwordConfirm === passwordDB) {
+            updateForm.submit();
+        } else {
+            alert("비밀번호 불일치!!!!");
+        }
+
+    }
+</script>
+</html>

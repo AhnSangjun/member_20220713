@@ -1,12 +1,16 @@
 package com.its.member.controller;
 
+import com.its.member.common.PagingConst;
 import com.its.member.dto.BoardDTO;
 import com.its.member.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Controller
@@ -61,6 +65,19 @@ public class BoardController {
         boardService.delete(id);
         return "redirect:/board/";
     }
+
+    @GetMapping
+    public String paging(@PageableDefault(page = 1) Pageable pageable, Model model) {
+      Page<BoardDTO> boardList = boardService.paging(pageable);
+      model.addAttribute("boardList", boardList);
+      int startPage = (((int) (Math.ceil((double) pageable.getNumberOfPages()/ PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;
+        int endPage = ((startPage + PagingConst.BLOCK_LIMIT - 1) < boardList.getTotalPages()) ? startPage + PagingConst.BLOCK_LIMIT - 1 : boardList.getTotalPages();
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        return "boardPages/paging";
+
+    }
+
 
 
 }
