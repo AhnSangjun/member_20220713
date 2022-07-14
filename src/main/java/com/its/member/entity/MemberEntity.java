@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -29,6 +31,32 @@ public class MemberEntity {
 
     @Column(length = 30)
     private String memberMobile;
+
+    // 회원(1)-게시글(N)의 연관관계
+    // delete 관련 옵션이 없는 경우
+//    @OneToMany(mappedBy = "memberEntity")
+//    private List<BoardEntity> boardEntityList = new ArrayList<>();
+
+    // on delete set null
+//    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
+//    private List<BoardEntity> boardEntityList = new ArrayList<>();
+
+    // on delete set null
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
+    private List<BoardEntity> boardEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
+    // set null 로 지정시 삭제 전에 member_id 칼럼을 null 로
+    @PreRemove
+    private void preRemove() {
+        boardEntityList.forEach(board -> board.setMemberEntity(null));
+        commentEntityList.forEach(comment -> comment.setMemberEntity(null));
+//        for (BoardEntity board: boardEntityList) {
+//            board.setMemberEntity(null);
+//        }
+    }
 
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();

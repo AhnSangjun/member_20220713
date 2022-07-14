@@ -30,6 +30,16 @@ public class BoardEntity extends BaseEntity{
     @Column
     private int boardHits;
 
+    @Column
+    private String boardFileName;
+
+    // 회원-게시글 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private MemberEntity memberEntity;
+
+    //
+
    public static BoardEntity toSaveEntity(BoardDTO boardDTO) {
        BoardEntity boardEntity = new BoardEntity();
        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
